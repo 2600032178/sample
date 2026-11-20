@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Character encoding must appear within the first 1024 bytes -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Student Activity Management Portal | Events, Clubs &amp; Registration</title>
+  <meta name="description" content="Browse upcoming university events, explore student clubs and activities, and register online through the Student Activity Management Portal.">
+  <meta name="keywords" content="university events, student clubs, campus activities, event registration">
+  <meta name="author" content="University Student Affairs Office">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#14295c">
+  <link rel="canonical" href="https://portal.example.edu/exp1.html">
+
+  <!-- Open Graph / social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Student Activity Management Portal">
+  <meta property="og:description" content="Discover and register for campus events, clubs and activities.">
+  <meta property="og:url" content="https://portal.example.edu/exp1.html">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Inline SVG favicon (no extra request) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2314295c'/%3E%3Cpath d='M32 12 8 24l24 12 24-12z' fill='%23fff'/%3E%3Cpath d='M16 32v10c0 4 7 8 16 8s16-4 16-8V32l-16 8z' fill='%23ffbf00'/%3E%3C/svg%3E">
+
+  <style>
+/* ==========================================================
+   Student Activity Management Portal - Global Styles
+   Mobile-first, accessible colour palette (WCAG 2.1 AA)
+   ========================================================== */
+
+:root {
+  --ink: #1b2430;          /* body text            */
+  --ink-soft: #3d4a5c;     /* secondary text       */
+  --bg: #ffffff;
+  --bg-alt: #f3f6fc;       /* section backgrounds  */
+  --primary: #1d3f8a;      /* brand blue           */
+  --primary-dark: #14295c;
+  --link: #1a47c8;
+  --accent: #8a4b00;       /* warm accent (dates)  */
+  --border: #5b6778;       /* input borders (3:1+) */
+  --border-soft: #cfd8e6;
+  --error: #b00020;
+  --success: #0b6b3a;
+  --focus: #ffbf00;        /* focus ring colour    */
+  --radius: 10px;
+  --max: 72rem;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { font-size: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+img, svg { max-width: 100%; height: auto; }
+
+a { color: var(--link); text-underline-offset: 3px; }
+a:hover { color: var(--primary-dark); text-decoration-thickness: 2px; }
+
+/* Visible keyboard focus for every interactive element */
+:focus-visible {
+  outline: 3px solid var(--primary-dark);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px var(--focus);
+}
+
+/* Skip link: first focusable element on every page */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--primary-dark);
+  color: #fff;
+  padding: .75rem 1.25rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 100;
+  font-weight: 600;
+}
+.skip-link:focus { top: 0; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.container { width: min(100% - 2rem, var(--max)); margin-inline: auto; }
+
+/* ---------- Header & navigation ---------- */
+.site-header {
+  background: var(--primary-dark);
+  color: #fff;
+}
+.site-header .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 1.5rem;
+  padding-block: .75rem;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.brand:hover { color: #fff; text-decoration: underline; }
+.brand svg { width: 2.25rem; height: 2.25rem; flex: none; }
+
+.site-nav ul {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem;
+}
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;            /* comfortable touch target */
+  padding: .25rem .9rem;
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-weight: 500;
+}
+.site-nav a:hover { background: rgba(255,255,255,.18); color: #fff; }
+.site-nav a[aria-current="page"] {
+  background: #fff;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+.site-nav a:focus-visible { outline-color: #fff; }
+
+/* ---------- Hero ---------- */
+.hero {
+  background: var(--bg-alt);
+  border-bottom: 4px solid var(--primary);
+  padding-block: 3rem;
+}
+.hero h1 {
+  margin: 0 0 .75rem;
+  font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+  line-height: 1.2;
+  color: var(--primary-dark);
+}
+.hero p { max-width: 42rem; margin: 0 0 1.5rem; color: var(--ink-soft); font-size: 1.15rem; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: .6rem 1.4rem;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { background: var(--primary-dark); border-color: var(--primary-dark); color: #fff; }
+.btn-outline { background: #fff; color: var(--primary); }
+.btn-outline:hover { background: var(--bg-alt); color: var(--primary-dark); }
+.btn-group { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+/* ---------- Main layout ---------- */
+.layout {
+  display: grid;
+  gap: 2rem;
+  padding-block: 2.5rem;
+}
+@media (min-width: 62rem) {
+  .layout { grid-template-columns: minmax(0, 1fr) 20rem; align-items: start; }
+}
+
+main section + section { margin-top: 3rem; }
+
+h2 {
+  margin: 0 0 .5rem;
+  font-size: 1.75rem;
+  line-height: 1.3;
+  color: var(--primary-dark);
+}
+h3 { margin: 0 0 .4rem; font-size: 1.25rem; line-height: 1.35; color: var(--ink); }
+.section-intro { margin: 0 0 1.5rem; color: var(--ink-soft); }
+
+/* ---------- Cards ---------- */
+.card-grid {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+}
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-top: 5px solid var(--primary);
+  border-radius: var(--radius);
+}
+.card p { margin: 0 0 .75rem; }
+.card .btn { margin-top: auto; align-self: flex-start; }
+
+.event-date {
+  margin: 0 0 .25rem !important;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-size: .9rem;
+}
+.event-meta { color: var(--ink-soft); font-size: .95rem; }
+.tag {
+  display: inline-block;
+  padding: .1rem .6rem;
+  margin-bottom: .6rem;
+  border-radius: 999px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border-soft);
+  color: var(--primary-dark);
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+/* ---------- Aside ---------- */
+.sidebar > * + * { margin-top: 1.5rem; }
+.panel {
+  padding: 1.25rem;
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-soft);
+}
+.panel h2 { font-size: 1.3rem; }
+.panel ul { margin: 0; padding-left: 1.2rem; }
+.panel li + li { margin-top: .6rem; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-top: 2rem;
+  background: var(--primary-dark);
+  color: #fff;
+  padding-block: 2rem;
+}
+.site-footer a { color: #fff; }
+.site-footer a:hover { color: #ffe08a; }
+.site-footer a:focus-visible { outline-color: #fff; }
+.footer-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 40rem) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
+.site-footer h2 { color: #fff; font-size: 1.1rem; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; }
+.site-footer li + li { margin-top: .4rem; }
+.site-footer address { font-style: normal; }
+.copyright { margin: 1.5rem 0 0; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,.35); font-size: .9rem; }
+
+/* ---------- Registration form ---------- */
+.form-card {
+  max-width: 48rem;
+  margin-top: 1.5rem;
+}
+
+fieldset {
+  margin: 0 0 1.75rem;
+  padding: 1.25rem 1.25rem 1rem;
+  border: 2px solid var(--border-soft);
+  border-radius: var(--radius);
+}
+legend {
+  padding: 0 .5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.field { margin-bottom: 1.25rem; }
+.field:last-child { margin-bottom: .25rem; }
+.field > label,
+.group-label { display: block; margin-bottom: .3rem; font-weight: 600; }
+.required-mark { color: var(--error); font-weight: 700; }
+.hint { display: block; margin: 0 0 .4rem; color: var(--ink-soft); font-size: .95rem; }
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: .55rem .75rem;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+}
+textarea { min-height: 8rem; resize: vertical; }
+
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] { border-color: var(--error); border-width: 3px; }
+
+.choice-list { display: grid; gap: .35rem; margin: 0; padding: 0; list-style: none; }
+.choice {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  min-height: 2.75rem;
+}
+.choice input[type="radio"],
+.choice input[type="checkbox"] {
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin: 0;
+  accent-color: var(--primary);
+}
+.choice label { font-weight: 400; cursor: pointer; }
+.choices-inline { display: flex; flex-wrap: wrap; gap: .25rem 2rem; }
+.interest-grid { display: grid; gap: .25rem 1.5rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+
+.error-msg {
+  display: none;
+  margin: .4rem 0 0;
+  color: var(--error);
+  font-weight: 600;
+  font-size: .95rem;
+}
+.error-msg.is-visible { display: block; }
+.error-msg::before { content: "\26A0\00a0"; }   /* icon so error is not colour-only */
+
+.error-summary {
+  display: none;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 3px solid var(--error);
+  border-radius: var(--radius);
+  background: #fff5f6;
+}
+.error-summary.is-visible { display: block; }
+.error-summary h3 { margin: 0 0 .5rem; font-size: 1.2rem; color: var(--error); }
+.error-summary ul { margin: 0; padding-left: 1.25rem; }
+.error-summary a { color: var(--error); font-weight: 600; }
+
+.success-box {
+  display: none;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 3px solid var(--success);
+  border-radius: var(--radius);
+  background: #f0fbf4;
+  color: var(--success);
+  font-weight: 600;
+}
+.success-box.is-visible { display: block; }
+.success-box:focus { outline: 3px solid var(--primary-dark); outline-offset: 3px; }
+
+.char-count { margin: .3rem 0 0; color: var(--ink-soft); font-size: .9rem; }
+
+/* Nested (borderless) groups for radios / checkboxes */
+.bare-fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.bare-legend { padding: 0; font-size: 1.0625rem; color: inherit; }
+.copyright-plain { border: 0; margin: 0; padding: 0; }
+
+/* ---------- Motion & high-contrast preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+@media (forced-colors: active) {
+  .btn, .card, fieldset { border: 2px solid CanvasText; }
+}
+@media print {
+  .site-nav, .skip-link, .btn { display: none; }
+}
+
+  </style>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="#top">
+        <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <rect width="64" height="64" rx="12" fill="#ffffff"/>
+          <path d="M32 12 8 24l24 12 24-12z" fill="#14295c"/>
+          <path d="M16 32v10c0 4 7 8 16 8s16-4 16-8V32l-16 8z" fill="#ffbf00"/>
+        </svg>
+        <span>Student Activity Portal</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="#top" aria-current="page">Home</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#activities">Activities</a></li>
+          <li><a href="#register">Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero banner: contains the single h1 for the page -->
+  <section class="hero" aria-labelledby="page-title">
+    <div class="container">
+      <h1 id="page-title">Student Activity Management Portal</h1>
+      <p>Find what's happening on campus, join a club that matches your interests and secure your spot at upcoming events in just a few steps.</p>
+      <div class="btn-group">
+        <a class="btn" href="#register">Register for an event</a>
+        <a class="btn btn-outline" href="#events">View upcoming events</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container layout">
+    <main id="main-content" tabindex="-1">
+
+      <!-- ===== Upcoming events ===== -->
+      <section id="events" aria-labelledby="events-heading">
+        <h2 id="events-heading">Upcoming Events</h2>
+        <p class="section-intro">Registrations are open for the following events. Seats are limited, so register early.</p>
+
+        <ul class="card-grid">
+          <li>
+            <article class="card">
+              <p class="tag">Technology</p>
+              <p class="event-date"><time datetime="2026-12-05">5 December 2026</time></p>
+              <h3>Annual Tech Hackathon</h3>
+              <p>A 24-hour coding challenge where student teams build solutions to real campus problems.</p>
+              <p class="event-meta">Innovation Lab, Block C &middot; 9:00 AM</p>
+              <a class="btn" href="#register" data-event="hackathon">Register<span class="visually-hidden"> for Annual Tech Hackathon</span></a>
+            </article>
+          </li>
+          <li>
+            <article class="card">
+              <p class="tag">Cultural</p>
+              <p class="event-date"><time datetime="2026-12-12">12 December 2026</time></p>
+              <h3>Winter Cultural Fest</h3>
+              <p>Music, dance, drama and food stalls celebrating the diversity of our student community.</p>
+              <p class="event-meta">Open Air Theatre &middot; 4:00 PM</p>
+              <a class="btn" href="#register" data-event="cultural-fest">Register<span class="visually-hidden"> for Winter Cultural Fest</span></a>
+            </article>
+          </li>
+          <li>
+            <article class="card">
+              <p class="tag">Sports</p>
+              <p class="event-date"><time datetime="2026-12-18">18 December 2026</time></p>
+              <h3>Inter-Department Cricket Cup</h3>
+              <p>Knockout tournament between department teams. Captains must register their full squad.</p>
+              <p class="event-meta">University Ground &middot; 8:00 AM</p>
+              <a class="btn" href="#register" data-event="cricket-cup">Register<span class="visually-hidden"> for Inter-Department Cricket Cup</span></a>
+            </article>
+          </li>
+          <li>
+            <article class="card">
+              <p class="tag">Community</p>
+              <p class="event-date"><time datetime="2026-11-28">28 November 2026</time></p>
+              <h3>Blood Donation Camp</h3>
+              <p>Organised with the NSS unit and the District Red Cross. Every donor receives a certificate.</p>
+              <p class="event-meta">Health Centre &middot; 10:00 AM</p>
+              <a class="btn" href="#register" data-event="blood-donation">Register<span class="visually-hidden"> for Blood Donation Camp</span></a>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ===== Activities and clubs ===== -->
+      <section id="activities" aria-labelledby="activities-heading">
+        <h2 id="activities-heading">Explore Student Activities</h2>
+        <p class="section-intro">Over 40 clubs and societies are run by students. Here are a few popular ones to get you started.</p>
+
+        <ul class="card-grid">
+          <li>
+            <article class="card">
+              <h3>Coding Club</h3>
+              <p>Weekly workshops on web development, data structures and open-source contribution.</p>
+              <p class="event-meta">Meets: Wednesdays, 5:00 PM</p>
+            </article>
+          </li>
+          <li>
+            <article class="card">
+              <h3>Cultural Society</h3>
+              <p>Dance, music, theatre and fine arts groups preparing for the annual fest and inter-college contests.</p>
+              <p class="event-meta">Meets: Fridays, 4:30 PM</p>
+            </article>
+          </li>
+          <li>
+            <article class="card">
+              <h3>Photography Club</h3>
+              <p>Photo walks, editing sessions and an annual exhibition in the main library atrium.</p>
+              <p class="event-meta">Meets: Saturdays, 7:00 AM</p>
+            </article>
+          </li>
+          <li>
+            <article class="card">
+              <h3>Debate &amp; Literary Society</h3>
+              <p>Parliamentary debates, quiz nights, creative writing circles and the campus magazine.</p>
+              <p class="event-meta">Meets: Tuesdays, 5:30 PM</p>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ===== Registration form ===== -->
+      <section id="register" aria-labelledby="register-heading">
+        <h2 id="register-heading">Register for an Event</h2>
+        <p class="section-intro">Fill in the form below to reserve your place. Fields marked with <span class="required-mark" aria-hidden="true">*</span><span class="visually-hidden">an asterisk</span> are required.</p>
+
+        <!-- Success message (hidden until a valid submission) -->
+        <div id="success-box" class="success-box" role="status" tabindex="-1">
+          Thank you! Your registration has been received. A confirmation email will be sent shortly.
+        </div>
+
+        <!-- Error summary (shown on failed submission, receives focus) -->
+        <div id="error-summary" class="error-summary" role="alert" tabindex="-1">
+          <h3>There is a problem</h3>
+          <ul id="error-list"></ul>
+        </div>
+
+        <form id="registration-form" class="form-card" action="#" method="post" novalidate>
+
+          <!-- ===== Personal details ===== -->
+          <fieldset>
+            <legend>Personal details</legend>
+
+            <div class="field">
+              <label for="full-name">Full name <span class="required-mark" aria-hidden="true">*</span></label>
+              <span id="full-name-hint" class="hint">As it appears on your student ID card.</span>
+              <input type="text" id="full-name" name="fullName" autocomplete="name" required aria-describedby="full-name-hint full-name-error">
+              <p id="full-name-error" class="error-msg"></p>
+            </div>
+
+            <div class="field">
+              <label for="student-id">Student ID <span class="required-mark" aria-hidden="true">*</span></label>
+              <span id="student-id-hint" class="hint">Example: 24CS1234 (2 digits, 2&ndash;4 letters, 3&ndash;4 digits).</span>
+              <input type="text" id="student-id" name="studentId" autocomplete="off" required
+                     pattern="[0-9]{2}[A-Za-z]{2,4}[0-9]{3,4}" aria-describedby="student-id-hint student-id-error">
+              <p id="student-id-error" class="error-msg"></p>
+            </div>
+
+            <div class="field">
+              <label for="email">University email <span class="required-mark" aria-hidden="true">*</span></label>
+              <span id="email-hint" class="hint">We will send your confirmation to this address.</span>
+              <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-hint email-error">
+              <p id="email-error" class="error-msg"></p>
+            </div>
+
+            <div class="field">
+              <label for="phone">Mobile number (optional)</label>
+              <span id="phone-hint" class="hint">10 digits, no spaces or country code.</span>
+              <input type="tel" id="phone" name="phone" autocomplete="tel-national" inputmode="numeric"
+                     pattern="[0-9]{10}" aria-describedby="phone-hint phone-error">
+              <p id="phone-error" class="error-msg"></p>
+            </div>
+          </fieldset>
+
+          <!-- ===== Academic details ===== -->
+          <fieldset>
+            <legend>Academic details</legend>
+
+            <div class="field">
+              <label for="department">Department <span class="required-mark" aria-hidden="true">*</span></label>
+              <select id="department" name="department" required aria-describedby="department-error">
+                <option value="">Select your department</option>
+                <option value="cse">Computer Science &amp; Engineering</option>
+                <option value="ece">Electronics &amp; Communication</option>
+                <option value="mech">Mechanical Engineering</option>
+                <option value="civil">Civil Engineering</option>
+                <option value="mba">Business Administration</option>
+                <option value="sci">Sciences</option>
+                <option value="arts">Arts &amp; Humanities</option>
+              </select>
+              <p id="department-error" class="error-msg"></p>
+            </div>
+
+            <div class="field">
+              <label for="year">Year of study <span class="required-mark" aria-hidden="true">*</span></label>
+              <select id="year" name="year" required aria-describedby="year-error">
+                <option value="">Select your year</option>
+                <option value="1">First year</option>
+                <option value="2">Second year</option>
+                <option value="3">Third year</option>
+                <option value="4">Fourth year</option>
+                <option value="pg">Postgraduate</option>
+              </select>
+              <p id="year-error" class="error-msg"></p>
+            </div>
+          </fieldset>
+
+          <!-- ===== Event details ===== -->
+          <fieldset>
+            <legend>Event details</legend>
+
+            <div class="field">
+              <label for="event">Event <span class="required-mark" aria-hidden="true">*</span></label>
+              <select id="event" name="event" required aria-describedby="event-error">
+                <option value="">Select an event</option>
+                <option value="blood-donation">Blood Donation Camp &ndash; 28 Nov 2026</option>
+                <option value="hackathon">Annual Tech Hackathon &ndash; 5 Dec 2026</option>
+                <option value="cultural-fest">Winter Cultural Fest &ndash; 12 Dec 2026</option>
+                <option value="cricket-cup">Inter-Department Cricket Cup &ndash; 18 Dec 2026</option>
+              </select>
+              <p id="event-error" class="error-msg"></p>
+            </div>
+
+            <!-- Radio group: fieldset + legend gives the group a name -->
+            <div class="field">
+              <fieldset id="attendance-group" aria-describedby="attendance-error" class="bare-fieldset">
+                <legend class="group-label bare-legend">Mode of attendance <span class="required-mark" aria-hidden="true">*</span></legend>
+                <div class="choices-inline">
+                  <div class="choice">
+                    <input type="radio" id="attend-in-person" name="attendance" value="in-person" required>
+                    <label for="attend-in-person">In person</label>
+                  </div>
+                  <div class="choice">
+                    <input type="radio" id="attend-online" name="attendance" value="online">
+                    <label for="attend-online">Online</label>
+                  </div>
+                </div>
+                <p id="attendance-error" class="error-msg"></p>
+              </fieldset>
+            </div>
+
+            <!-- Checkbox group -->
+            <div class="field">
+              <fieldset class="bare-fieldset">
+                <legend class="group-label bare-legend">Areas of interest (optional)</legend>
+                <span class="hint">Select all that apply so we can recommend relevant events.</span>
+                <div class="interest-grid">
+                  <div class="choice">
+                    <input type="checkbox" id="int-tech" name="interests" value="technology">
+                    <label for="int-tech">Technology</label>
+                  </div>
+                  <div class="choice">
+                    <input type="checkbox" id="int-arts" name="interests" value="arts">
+                    <label for="int-arts">Arts &amp; culture</label>
+                  </div>
+                  <div class="choice">
+                    <input type="checkbox" id="int-sports" name="interests" value="sports">
+                    <label for="int-sports">Sports &amp; fitness</label>
+                  </div>
+                  <div class="choice">
+                    <input type="checkbox" id="int-service" name="interests" value="community-service">
+                    <label for="int-service">Community service</label>
+                  </div>
+                  <div class="choice">
+                    <input type="checkbox" id="int-business" name="interests" value="entrepreneurship">
+                    <label for="int-business">Entrepreneurship</label>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="field">
+              <label for="comments">Accessibility needs or comments (optional)</label>
+              <span id="comments-hint" class="hint">Tell us about any support you need, such as step-free access or sign-language interpretation.</span>
+              <textarea id="comments" name="comments" rows="5" maxlength="500" aria-describedby="comments-hint comments-count"></textarea>
+              <p id="comments-count" class="char-count">500 characters remaining</p>
+            </div>
+          </fieldset>
+
+          <!-- ===== Consent ===== -->
+          <fieldset>
+            <legend>Consent</legend>
+            <div class="field">
+              <div class="choice">
+                <input type="checkbox" id="consent" name="consent" value="yes" required aria-describedby="consent-error">
+                <label for="consent">I confirm the details above are correct and agree to the event code of conduct. <span class="required-mark" aria-hidden="true">*</span></label>
+              </div>
+              <p id="consent-error" class="error-msg"></p>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="btn">Submit registration</button>
+        </form>
+      </section>
+    </main>
+
+    <!-- Supplementary content related to, but separate from, the main content -->
+    <aside class="sidebar" aria-label="Announcements and quick links">
+      <section class="panel" aria-labelledby="announce-heading">
+        <h2 id="announce-heading">Announcements</h2>
+        <ul>
+          <li>Registration for the Tech Hackathon closes on <time datetime="2026-12-01">1 December</time>.</li>
+          <li>New clubs may apply for recognition until <time datetime="2026-12-15">15 December</time>.</li>
+          <li>The sports complex will be closed on <time datetime="2026-11-25">25 November</time> for maintenance.</li>
+        </ul>
+      </section>
+
+      <section class="panel" aria-labelledby="links-heading">
+        <h2 id="links-heading">Quick Links</h2>
+        <ul>
+          <li><a href="#register">Event registration form</a></li>
+          <li><a href="#events">Upcoming events</a></li>
+          <li><a href="#activities">Clubs &amp; societies</a></li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <section aria-labelledby="footer-about">
+          <h2 id="footer-about">About the Portal</h2>
+          <p>The Student Activity Management Portal is maintained by the Office of Student Affairs to help every student take part in campus life.</p>
+        </section>
+        <nav aria-labelledby="footer-links">
+          <h2 id="footer-links">Explore</h2>
+          <ul>
+            <li><a href="#top">Home</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#register">Register</a></li>
+          </ul>
+        </nav>
+        <section aria-labelledby="footer-contact">
+          <h2 id="footer-contact">Contact</h2>
+          <address>
+            Office of Student Affairs<br>
+            Administrative Block, Room 104<br>
+            <a href="mailto:studentaffairs@example.edu">studentaffairs@example.edu</a>
+          </address>
+        </section>
+      </div>
+      <p class="copyright">&copy; 2026 University Student Affairs Office. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+/* ==========================================================
+   Accessible form validation for the registration form.
+   - Uses native constraint validation (novalidate on the form
+     lets us show our own, screen-reader friendly messages).
+   - On error: builds an error summary, moves focus to it, and
+     links each message to its field.
+   - Inline messages are associated via aria-describedby and
+     fields are flagged with aria-invalid.
+   ========================================================== */
+(function () {
+  "use strict";
+
+  var form = document.getElementById("registration-form");
+  var summary = document.getElementById("error-summary");
+  var summaryList = document.getElementById("error-list");
+  var successBox = document.getElementById("success-box");
+  var comments = document.getElementById("comments");
+  var counter = document.getElementById("comments-count");
+
+  if (!form) { return; }
+
+  /* ---- Pre-select event from ?event=... (links on the home page) ---- */
+  var params = new URLSearchParams(window.location.search);
+  var preset = params.get("event");
+  var eventSelect = document.getElementById("event");
+  if (preset && eventSelect) {
+    for (var i = 0; i < eventSelect.options.length; i++) {
+      if (eventSelect.options[i].value === preset) {
+        eventSelect.selectedIndex = i;
+        break;
+      }
+    }
+  }
+
+
+  /* ---- Event buttons in the cards pre-select the event in the form ---- */
+  var eventLinks = document.querySelectorAll("a[data-event]");
+  for (var k = 0; k < eventLinks.length; k++) {
+    eventLinks[k].addEventListener("click", function (e) {
+      eventSelect.value = e.currentTarget.getAttribute("data-event");
+    });
+  }
+
+  /* ---- Character counter for the textarea ---- */
+  function updateCounter() {
+    var left = comments.maxLength - comments.value.length;
+    counter.textContent = left + " character" + (left === 1 ? "" : "s") + " remaining";
+  }
+  comments.addEventListener("input", updateCounter);
+  updateCounter();
+
+  /* ---- Human-friendly error text for each field ---- */
+  var REQUIRED_MESSAGES = {
+    "full-name": "Enter your full name.",
+    "student-id": "Enter your student ID.",
+    "email": "Enter your university email address.",
+    "department": "Select your department.",
+    "year": "Select your year of study.",
+    "event": "Select the event you want to attend.",
+    "attend-in-person": "Select a mode of attendance (in person or online).",
+    "consent": "Tick the confirmation box to continue."
+  };
+
+  function messageFor(field) {
+    var v = field.validity;
+
+    if (v.valueMissing) {
+      return REQUIRED_MESSAGES[field.id] || "Complete this field.";
+    }
+    if (v.typeMismatch && field.type === "email") {
+      return "Enter an email address in the format name@example.edu.";
+    }
+    if (v.patternMismatch) {
+      if (field.id === "student-id") { return "Enter a student ID in the format 24CS1234."; }
+      if (field.id === "phone") { return "Enter a 10-digit mobile number using digits only."; }
+    }
+    return "Check this field.";
+  }
+
+  function errorBox(field) {
+    var id = field.type === "radio" ? "attendance-error" : field.id + "-error";
+    return document.getElementById(id);
+  }
+
+  function clearError(field) {
+    var box = errorBox(field);
+    if (box) { box.textContent = ""; box.classList.remove("is-visible"); }
+    if (field.type === "radio") {
+      var radios = form.querySelectorAll('input[name="' + field.name + '"]');
+      for (var i = 0; i < radios.length; i++) { radios[i].removeAttribute("aria-invalid"); }
+    } else {
+      field.removeAttribute("aria-invalid");
+    }
+  }
+
+  function showError(field, text) {
+    var box = errorBox(field);
+    if (box) { box.textContent = text; box.classList.add("is-visible"); }
+    if (field.type === "radio") {
+      var radios = form.querySelectorAll('input[name="' + field.name + '"]');
+      for (var i = 0; i < radios.length; i++) { radios[i].setAttribute("aria-invalid", "true"); }
+    } else {
+      field.setAttribute("aria-invalid", "true");
+    }
+  }
+
+  /* ---- Validate on submit ---- */
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    successBox.classList.remove("is-visible");
+    summaryList.innerHTML = "";
+
+    var fields = form.querySelectorAll("input, select, textarea");
+    var seenRadioGroups = {};
+    var problems = [];
+
+    for (var i = 0; i < fields.length; i++) {
+      var f = fields[i];
+
+      // A radio group is validated once, using its first button
+      if (f.type === "radio") {
+        if (seenRadioGroups[f.name]) { continue; }
+        seenRadioGroups[f.name] = true;
+      }
+      clearError(f);
+      // Skip empty optional fields so only real problems are reported
+      if (!f.required && f.value === "") { continue; }
+
+      var valid = f.type === "radio"
+        ? form.querySelector('input[name="' + f.name + '"]:checked') !== null
+        : f.checkValidity();
+
+      if (!valid) {
+        var text = messageFor(f);
+        showError(f, text);
+        problems.push({ field: f, text: text });
+      }
+    }
+
+    if (problems.length) {
+      for (var p = 0; p < problems.length; p++) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        var target = problems[p].field;
+        a.href = "#" + target.id;
+        a.textContent = problems[p].text;
+        a.setAttribute("data-target", target.id);
+        li.appendChild(a);
+        summaryList.appendChild(li);
+      }
+      summary.classList.add("is-visible");
+      summary.focus();
+      return;
+    }
+
+    // Valid: show confirmation (a real portal would POST to the server here)
+    summary.classList.remove("is-visible");
+    successBox.classList.add("is-visible");
+    successBox.focus();
+    form.reset();
+    updateCounter();
+  });
+
+  /* ---- Summary links move focus to the field (anchors alone do not
+         always focus form controls in every browser) ---- */
+  summaryList.addEventListener("click", function (event) {
+    var link = event.target.closest("a[data-target]");
+    if (!link) { return; }
+    event.preventDefault();
+    var target = document.getElementById(link.getAttribute("data-target"));
+    if (target) { target.focus(); }
+  });
+
+  /* ---- Clear a field's error as soon as the user fixes it ---- */
+  form.addEventListener("input", function (event) {
+    var f = event.target;
+    if (f.checkValidity && f.checkValidity()) { clearError(f); }
+  });
+  form.addEventListener("change", function (event) {
+    var f = event.target;
+    if (f.checkValidity && f.checkValidity()) { clearError(f); }
+  });
+})();
+
+  </script>
+</body>
+</html>
